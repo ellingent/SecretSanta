@@ -1,12 +1,11 @@
-﻿using SecretSanta.Domain.Interfaces;
+﻿using SecretSanta.Domain.Dtos;
+using SecretSanta.Domain.Interfaces.Repositories;
 using System;
-using SecretSanta.Domain.Dtos;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using System.Linq;
+using System.Xml.Linq;
 
-namespace SecretSanta.Data
-{
+namespace SecretSanta.Data {
     public class PersonRepository : IPersonRepository {
         public List<PersonDto> GetPersons() {
             var secretSanta = XDocument.Load("");

@@ -1,6 +1,6 @@
 ﻿using SecretSanta.Data;
 using SecretSanta.Domain.Facades;
-using SecretSanta.Domain.Interfaces;
+using SecretSanta.Domain.Interfaces.Facades;
 
 namespace Santa {
     class Program
@@ -8,7 +8,7 @@ namespace Santa {
         static void Main(string[] args)
         {
             ISantaFacade facade = new SantaFacade(new PersonRepository());
-            facade.DistributeGiftees();
+            facade.DistributeHolidayCheer();
         }
     }
 }

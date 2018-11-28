@@ -1,5 +1,5 @@
 ﻿using SecretSanta.Domain.Exceptions;
-using SecretSanta.Domain.Interfaces;
+using SecretSanta.Domain.Interfaces.Services;
 using SecretSanta.Domain.Models;
 using System;
 using System.Collections.Generic;

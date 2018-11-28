@@ -1,13 +1,10 @@
-﻿using SecretSanta.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SecretSanta.Domain.Interfaces.Services;
 using SecretSanta.Domain.Models;
+using System;
 using System.Net.Mail;
-using System.Net;
+using System.Text;
 
-namespace SecretSanta.Domain.Services
-{
+namespace SecretSanta.Domain.Services {
     public class EmailNotificationService : INotificationService {
         private const string FROM_ADDRESS = "SecretSanta@ellingen.org";
         private const string SUBJECT = "Secret Santa";

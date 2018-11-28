@@ -1,4 +1,5 @@
-﻿using SecretSanta.Domain.Interfaces;
+﻿using SecretSanta.Domain.Interfaces.Facades;
+using SecretSanta.Domain.Interfaces.Repositories;
 using System;
 
 namespace SecretSanta.Domain.Facades {
@@ -10,7 +11,7 @@ namespace SecretSanta.Domain.Facades {
             this.PersonRepository = personRepo;
         }
 
-        public void DistributeGiftees() {
+        public void DistributeHolidayCheer() {
             throw new NotImplementedException();
         }
     }          

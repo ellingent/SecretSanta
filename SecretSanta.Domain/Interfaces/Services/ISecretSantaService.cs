@@ -1,7 +1,7 @@
 ﻿using SecretSanta.Domain.Models;
 using System.Collections.Generic;
 
-namespace SecretSanta.Domain.Interfaces {
+namespace SecretSanta.Domain.Interfaces.Services {
     public interface ISecretSantaService
     {
         List<Person> DistributeGiftees();
