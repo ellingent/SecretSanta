@@ -10,7 +10,7 @@ using System.Text;
 namespace SecretSanta.Domain.Tests
 {
     [TestClass]
-    public class TestSecretSantaService {
+    public class SecretSantaServiceTests {
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Test_Constructor_NullPersons() {
