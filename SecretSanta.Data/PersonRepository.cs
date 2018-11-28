@@ -1,0 +1,23 @@
+﻿using SecretSanta.Domain.Interfaces;
+using System;
+using SecretSanta.Domain.Dtos;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Linq;
+
+namespace SecretSanta.Data
+{
+    public class PersonRepository : IPersonRepository {
+        public List<PersonDto> GetPersons() {
+            var secretSanta = XDocument.Load("");
+            return secretSanta.Root.Element("Persons").
+                                    Elements("Person").
+                                    Select(p => new PersonDto { Id = Guid.NewGuid(),
+                                                                FamilyId = (Guid)p.Element("FamilyID"),
+                                                                FirstName = (string)p.Element("FirstName"),
+                                                                LastName = (string)p.Element("LastName"),
+                                                                Email = (string)p.Element("Email")}).
+                                    ToList();
+        }
+    }
+}
