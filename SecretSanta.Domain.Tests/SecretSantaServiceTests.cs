@@ -126,11 +126,10 @@ namespace SecretSanta.Domain.Tests
             
             //Act 
             var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2 }));
-            var persons = santa.DistributeGiftees();
 
             //Assert (Due to random used in algorhythm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {
-                AssertPersons(3, persons);
+                AssertPersons(3, santa.DistributeGiftees());
             }
         }
 
@@ -147,11 +146,10 @@ namespace SecretSanta.Domain.Tests
 
             //Act 
             var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3 }));
-            var persons = santa.DistributeGiftees();
 
             //Assert (Due to random used in algorhythm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {
-                AssertPersons(4, persons);
+                AssertPersons(4, santa.DistributeGiftees());
             }
         }
 
@@ -178,11 +176,11 @@ namespace SecretSanta.Domain.Tests
 
             //Act 
             var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 }));
-            var persons = santa.DistributeGiftees();
+            
 
-            //Assert (Due to random used in algorhythm, repeat this operation a whole bunch of times)
+            //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {
-                AssertPersons(11, persons);
+                AssertPersons(11, santa.DistributeGiftees());
             }
         }
 
@@ -191,6 +189,7 @@ namespace SecretSanta.Domain.Tests
             Assert.IsFalse(persons.Any(p => p.Giftee is null));
             Assert.IsFalse(persons.Any(p => p.Id == p.Giftee.Id));
             Assert.IsFalse(persons.Any(p => p.FamilyId == p.Giftee.FamilyId));
+            Assert.IsFalse(persons.GroupBy(p => p.Giftee.Id).Any(g => g.Count() > 1));
         }
     }
 }

@@ -25,16 +25,17 @@ namespace SecretSanta.Domain.Services {
             var result = new List<Person>();
             var rando = new Random(Guid.NewGuid().GetHashCode());   //Seed with random integer
 
-            var gifterIndex = 0;
-            while (_AllPersons.Count > result.Count) {
-                var gifter = _AllPersons[gifterIndex];
-                var potentialGiftee = _AllPersons[rando.Next(_AllPersons.Count)];
-
-                if (gifter.FamilyId != potentialGiftee.FamilyId && gifter.Id != potentialGiftee.Id) {
-                    gifter.Giftee = potentialGiftee;
-                    result.Add(gifter);
-
-                    gifterIndex++;
+            foreach(var family in _AllPersons.GroupBy(p => p.FamilyId).OrderByDescending(f => f.Count())) {
+                var assignedGiftees = result.Select(p => p.Giftee).ToList();
+                var availableMembersOutsideFamily = _AllPersons.Where(p => p.FamilyId != family.Key && !assignedGiftees.Contains(p)).ToList();
+                foreach(var gifter in family) {
+                    if (availableMembersOutsideFamily.Any()) {
+                        //Randomize list by ID
+                        var giftee = availableMembersOutsideFamily.OrderBy(p => p.Id.GetHashCode()).First();
+                        gifter.Giftee = giftee;
+                        availableMembersOutsideFamily.Remove(giftee);
+                        result.Add(gifter);
+                    }
                 }
             }
 
