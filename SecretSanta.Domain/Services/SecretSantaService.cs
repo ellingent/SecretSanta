@@ -22,13 +22,19 @@ namespace SecretSanta.Domain.Services {
         #region ISecretSanta Implementations
 
         public List<Person> DistributeGiftees() {
-            var result = new List<Person>();
-            var rando = new Random(Guid.NewGuid().GetHashCode());   //Seed with random integer
+            var gifteesAssigned = new List<Person>();
+            while (gifteesAssigned.Count < _AllPersons.Count)
+                gifteesAssigned = AttemptDistribution();
+            return gifteesAssigned;
+        }
 
-            foreach(var family in _AllPersons.GroupBy(p => p.FamilyId).OrderByDescending(f => f.Count())) {
+        private List<Person> AttemptDistribution() {
+            var result = new List<Person>();
+
+            foreach (var family in _AllPersons.GroupBy(p => p.FamilyId).OrderByDescending(f => f.Count())) {
                 var assignedGiftees = result.Select(p => p.Giftee).ToList();
                 var availableMembersOutsideFamily = _AllPersons.Where(p => p.FamilyId != family.Key && !assignedGiftees.Contains(p)).ToList();
-                foreach(var gifter in family) {
+                foreach (var gifter in family) {
                     if (availableMembersOutsideFamily.Any()) {
                         //Randomize list by ID
                         var giftee = availableMembersOutsideFamily.OrderBy(p => p.Id.GetHashCode()).First();

@@ -23,7 +23,7 @@ namespace SecretSanta.Domain.Facades {
             if (personDtos.Any()) {
                 var persons = personDtos.Select(Mapper.Map<Person>).ToList();
                 var service = SantaFactory.Build(persons);
-                service.DistributeGiftees();
+                service.NotifyPersons(service.DistributeGiftees());
             }
         }
     }          
