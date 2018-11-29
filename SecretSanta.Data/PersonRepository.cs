@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace SecretSanta.Data {
     public class PersonRepository : IPersonRepository {
         public List<PersonDto> GetPersons() {
-            var secretSanta = XDocument.Load("");
+            var secretSanta = XDocument.Load(@"C:\tmp\SecretSanta.dev.xml");
             return secretSanta.Root.Element("Persons").
                                     Elements("Person").
                                     Select(p => new PersonDto { Id = Guid.NewGuid(),

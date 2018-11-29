@@ -4,13 +4,13 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace SecretSanta.Domain.Services {
-    public class EmailNotificationService : INotificationService {
-        private const string FROM_ADDRESS = "SecretSanta@ellingen.org";
+    public class SendGridNotificationService : INotificationService {
+        private const string FROM_ADDRESS = "SecretSanta@ellingen.fun.test-google-a.com";
         private const string SUBJECT = "Secret Santa";
 
         public void Notify(Person person) {
             var msg = new SendGridMessage();
-            msg.SetFrom(new EmailAddress("Santa@ellingen.org"));
+            msg.SetFrom(new EmailAddress("SecretSanta@ellingen.fun.test-google-a.com"));
             msg.AddTo(person.Email);
             msg.SetSubject("Gift Exchange");
             msg.AddContent(MimeType.Text, string.Format("Hi {0},", person.FirstName));

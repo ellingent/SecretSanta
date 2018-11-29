@@ -9,12 +9,15 @@ namespace SecretSanta.Domain.Services {
     public class SecretSantaService : ISecretSantaService {
         private List<Person> _AllPersons;
 
+        public INotificationService NotificationService { get; set; }
+
         #region Constructor 
 
         public SecretSantaService(List<Person> allPersons) {
             Validate(allPersons);
 
             _AllPersons = allPersons;
+            NotificationService = new GmailNotificationService();  //TODO: IoC
         }
 
         #endregion
@@ -49,7 +52,8 @@ namespace SecretSanta.Domain.Services {
         }
 
         public void NotifyPersons(List<Person> AllPersons) {
-            throw new NotImplementedException();
+            foreach (var person in AllPersons)
+                NotificationService.Notify(person);
         }
 
         #endregion
