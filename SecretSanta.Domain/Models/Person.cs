@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SendGrid.Helpers.Mail;
+using System;
 using System.Net.Mail;
 
 namespace SecretSanta.Domain.Models {
@@ -8,7 +9,7 @@ namespace SecretSanta.Domain.Models {
         public Guid FamilyId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public MailAddress Email { get; set; }
+        public EmailAddress Email { get; set; }
         public Person Giftee { get; set; }
 
         public Person() { }
