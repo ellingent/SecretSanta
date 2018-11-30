@@ -7,40 +7,44 @@ using System.Linq;
 
 namespace SecretSanta.Domain.Services {
     public class SecretSantaService : ISecretSantaService {
-        private List<Person> _AllPersons;
+
+        private List<Person> _Participants;
 
         public INotificationService NotificationService { get; set; }
 
-        #region Constructor 
-
-        public SecretSantaService(List<Person> allPersons) {
-            Validate(allPersons);
-
-            _AllPersons = allPersons;
-            NotificationService = new GmailNotificationService();  //TODO: IoC
+        public List<Person> Participants {
+            get {
+                return _Participants;
+            }
+            set {
+                Validate(value);
+                _Participants = value;
+            }
         }
 
-        #endregion
 
         #region ISecretSanta Implementations
 
         public List<Person> DistributeGiftees() {
+            if (_Participants is null) throw new ArgumentNullException();
+
             var gifteesAssigned = new List<Person>();
-            while (gifteesAssigned.Count < _AllPersons.Count)
+            while (gifteesAssigned.Count < _Participants.Count)
                 gifteesAssigned = AttemptDistribution();
             return gifteesAssigned;
         }
 
         private List<Person> AttemptDistribution() {
             var result = new List<Person>();
+            var rando = new Random(Guid.NewGuid().GetHashCode());       //Seed with "random" int
 
-            foreach (var family in _AllPersons.GroupBy(p => p.FamilyId).OrderByDescending(f => f.Count())) {
+            foreach (var family in _Participants.GroupBy(p => p.FamilyId).OrderByDescending(f => f.Count())) {
                 var assignedGiftees = result.Select(p => p.Giftee).ToList();
-                var availableMembersOutsideFamily = _AllPersons.Where(p => p.FamilyId != family.Key && !assignedGiftees.Contains(p)).ToList();
+                var availableMembersOutsideFamily = _Participants.Where(p => p.FamilyId != family.Key && !assignedGiftees.Contains(p)).ToList();
                 foreach (var gifter in family) {
                     if (availableMembersOutsideFamily.Any()) {
-                        //Randomize list by ID
-                        var giftee = availableMembersOutsideFamily.OrderBy(p => p.Id.GetHashCode()).First();
+                        //Randomize list by hash of ID times random integer
+                        var giftee = availableMembersOutsideFamily.OrderBy(p => p.Id.GetHashCode() * rando.Next()).First();
                         gifter.Giftee = giftee;
                         availableMembersOutsideFamily.Remove(giftee);
                         result.Add(gifter);

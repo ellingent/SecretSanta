@@ -13,64 +13,84 @@ namespace SecretSanta.Domain.Tests
     public class SecretSantaServiceTests {
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void Test_Constructor_NullPersons() {
+        public void Test_DistributeGiftee_NullPersons() {
             //Act
-            var santa = new SecretSantaService(null);
+            var santa = new SecretSantaService();
+
+            //Act
+            santa.DistributeGiftees();
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_FamilyIdNull() {
+        public void Test_Participants_FamilyIdNull() {
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { new Person(Guid.NewGuid()),
-                                                                        new Person(Guid.NewGuid()),
-                                                                        new Person()
-                                                                        })
-                                                                );
+            var santa = new SecretSantaService();
+
+
+            //Act
+            santa.Participants = new List<Person>(new[] { new Person(Guid.NewGuid()),
+                                                          new Person(Guid.NewGuid()),
+                                                          new Person()
+                                                        });
+                                                                
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_NoPersons() {
+        public void Test_Participants_NoPersons() {
             //Arrange
-            var santa = new SecretSantaService(new List<Person>());
-        }
+            var santa = new SecretSantaService();
 
-        [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_OnePerson() {
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { new Person(Guid.NewGuid()) }));
+            santa.Participants = new List<Person>();
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_TwoPeople() {
+        public void Test_Participants_OnePerson() {
+            //Arrange
+            var santa = new SecretSantaService();
+
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { new Person(Guid.NewGuid()), new Person(Guid.NewGuid()) }));
+            santa.Participants = new List<Person>(new[] { new Person(Guid.NewGuid()) });
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_ThreePeople_TwoInSameFamily() {
+        public void Test_Participants_TwoPeople() {
+            //Arrange
+            var santa = new SecretSantaService();
+
+            //Act
+            santa.Participants = new List<Person>(new[] { new Person(Guid.NewGuid()), new Person(Guid.NewGuid()) });
+        }
+
+        [TestMethod, ExpectedException(typeof(DistributionException))]
+        public void Test_Participants_ThreePeople_TwoInSameFamily() {
             var familyId = Guid.NewGuid();
             var p0 = new Person(familyId) { FamilyId = familyId };
             var p1 = new Person(familyId) { FamilyId = familyId };
             var p2 = new Person(Guid.NewGuid());
 
+            var santa = new SecretSantaService();
+
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2 }));
+            santa.Participants = new List<Person>(new[] { p0, p1, p2 });
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_FourPeople_ThreeInSameFamily() {
+        public void Test_Participants_FourPeople_ThreeInSameFamily() {
             var familyId = Guid.NewGuid();
             var p0 = new Person(familyId);
             var p1 = new Person(familyId);
             var p2 = new Person(familyId);
             var p3 = new Person(Guid.NewGuid());
 
+            var santa = new SecretSantaService();
+
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3 }));
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_FivePeople_ThreeInSameFamily() {
+        public void Test_Participants_FivePeople_ThreeInSameFamily() {
             var familyId0 = Guid.NewGuid();
             var familyId1 = Guid.NewGuid();
 
@@ -80,12 +100,14 @@ namespace SecretSanta.Domain.Tests
             var p3 = new Person(familyId1);
             var p5 = new Person(familyId1);
 
+            var santa = new SecretSantaService();
+
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3 }));
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
         }
 
         [TestMethod, ExpectedException(typeof(DistributionException))]
-        public void Test_Constructor_FivePeople_FourInSameFamily() {
+        public void Test_Participants_FivePeople_FourInSameFamily() {
             var familyId0 = Guid.NewGuid();
             var familyId1 = Guid.NewGuid();
 
@@ -96,11 +118,13 @@ namespace SecretSanta.Domain.Tests
             var p4 = new Person(familyId1);
 
             //Act
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3, p4 }));
+            var santa = new SecretSantaService();
+
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3, p4 });
         }
 
         [TestMethod]
-        public void Test_Constructor_TwoFamilies_TwoMembersPerFamily() {
+        public void Test_Participants_TwoFamilies_TwoMembersPerFamily() {
             //Arrange
             var familyId0 = Guid.NewGuid();
             var familyId1 = Guid.NewGuid();
@@ -110,7 +134,10 @@ namespace SecretSanta.Domain.Tests
             var p2 = new Person(familyId1);
             var p3 = new Person(familyId0);
 
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3 }));
+            var santa = new SecretSantaService();
+
+            //Act
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
         }
 
         [TestMethod]
@@ -125,9 +152,10 @@ namespace SecretSanta.Domain.Tests
             var p2 = new Person(familyId2);
             
             //Act 
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2 }));
+            var santa = new SecretSantaService();
+            santa.Participants = new List<Person>(new[] { p0, p1, p2 });
 
-            //Assert (Due to random used in algorhythm, repeat this operation a whole bunch of times)
+            //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {
                 AssertPersons(3, santa.DistributeGiftees());
             }
@@ -145,9 +173,10 @@ namespace SecretSanta.Domain.Tests
             var p3 = new Person(familyId0);
 
             //Act 
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3 }));
+            var santa = new SecretSantaService();
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
 
-            //Assert (Due to random used in algorhythm, repeat this operation a whole bunch of times)
+            //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {
                 AssertPersons(4, santa.DistributeGiftees());
             }
@@ -175,8 +204,9 @@ namespace SecretSanta.Domain.Tests
 
 
             //Act 
-            var santa = new SecretSantaService(new List<Person>(new[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 }));
-            
+            var santa = new SecretSantaService();
+            santa.Participants = new List<Person>(new[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 });
+
 
             //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
             for (int i = 0; i < 100; i++) {

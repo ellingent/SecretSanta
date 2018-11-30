@@ -1,16 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AutoMapper;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SecretSanta.Domain.Dtos;
 using SecretSanta.Domain.Facades;
 using SecretSanta.Domain.Interfaces.Repositories;
-using System;
-using SecretSanta.Domain.Dtos;
-using System.Collections.Generic;
-using Moq;
-using SecretSanta.Domain.Factories;
-using SecretSanta.Domain.Interfaces.Factories;
 using SecretSanta.Domain.Interfaces.Services;
 using SecretSanta.Domain.Models;
+using SecretSanta.Domain.Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using System.Net.Mail;
 
 namespace SecretSanta.Domain.Tests {
@@ -34,7 +33,7 @@ namespace SecretSanta.Domain.Tests {
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Test_Constructor_NullRepo() {
             //Act
-            var facade = new SantaFacade(null, new SecretSantaFactory());
+            var facade = new SantaFacade(null, new SecretSantaService());
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -47,14 +46,14 @@ namespace SecretSanta.Domain.Tests {
         public void Test_Constructor_PropertiesSet() {
             //Arrange
             var repo = new DummyRepo();
-            var factory = new SecretSantaFactory();
+            var service = new SecretSantaService();
             
             //Act
-            var facade = new SantaFacade(repo, factory);
+            var facade = new SantaFacade(repo, service);
 
             //Assert 
             Assert.AreEqual(repo, facade.PersonRepository);
-            Assert.AreEqual(factory, facade.SantaFactory);
+            Assert.AreEqual(service, facade.SantaService);
         }
 
         [TestMethod]
@@ -63,7 +62,7 @@ namespace SecretSanta.Domain.Tests {
             var repo = new Mock<IPersonRepository>();
             repo.Setup(r => r.GetPersons()).Returns(new List<PersonDto>());
 
-            var factory = new Mock<ISecretSantaFactory>();
+            var factory = new Mock<ISecretSantaService>();
 
             //Act
             var facade = new SantaFacade(repo.Object, factory.Object);
@@ -71,7 +70,7 @@ namespace SecretSanta.Domain.Tests {
 
             //Assert 
             repo.Verify(r => r.GetPersons(), Times.Once);
-            factory.Verify(r => r.Build(It.IsAny<List<Person>>()), Times.Never);
+            factory.Verify(r => r.DistributeGiftees(), Times.Never);
         }
 
         [TestMethod]
@@ -83,18 +82,17 @@ namespace SecretSanta.Domain.Tests {
             var service = new Mock<ISecretSantaService>();
 
             var mappedPersons = new List<Person>();
-            var factory = new Mock<ISecretSantaFactory>();
-            factory.Setup(f => f.Build(It.IsAny<List<Person>>())).Returns(service.Object).
-                                                                  Callback((List<Person> p) => mappedPersons.AddRange(p));
+            service.SetupSet(s => s.Participants = It.IsAny<List<Person>>()).Callback((List<Person> p) => mappedPersons.AddRange(p));
 
             //Act
-            var facade = new SantaFacade(repo.Object, factory.Object);
+            var facade = new SantaFacade(repo.Object, service.Object);
             facade.DistributeHolidayCheer();
 
             //Assert 
             repo.Verify(r => r.GetPersons(), Times.Once);
-            factory.Verify(r => r.Build(mappedPersons), Times.Once);
+            service.VerifySet(r => r.Participants = It.IsAny<List<Person>>(), Times.Once);
             service.Verify(r => r.DistributeGiftees(), Times.Once);
+            service.Verify(r => r.NotifyPersons(It.IsAny<List<Person>>()), Times.Once);
         }
 
         #region Private Helpers

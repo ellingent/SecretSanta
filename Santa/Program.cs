@@ -1,7 +1,4 @@
 ﻿using Autofac;
-using SecretSanta.Data;
-using SecretSanta.Domain.Facades;
-using SecretSanta.Domain.Factories;
 using SecretSanta.Domain.Interfaces.Facades;
 using SecretSanta.Domain.Mappers;
 
