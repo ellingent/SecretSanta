@@ -22,6 +22,13 @@ namespace SecretSanta.Domain.Services {
             }
         }
 
+        #region Constructor 
+
+        public SecretSantaService(INotificationService notificationService) {
+            NotificationService = notificationService;
+        }
+
+        #endregion
 
         #region ISecretSanta Implementations
 
@@ -56,6 +63,7 @@ namespace SecretSanta.Domain.Services {
         }
 
         public void NotifyPersons(List<Person> AllPersons) {
+            //NotificationService = new SendGridNotificationService();
             foreach (var person in AllPersons)
                 NotificationService.Notify(person);
         }

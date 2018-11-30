@@ -11,7 +11,6 @@ namespace SecretSanta.Domain.Facades {
         public IPersonRepository PersonRepository { get; set; }
         public ISecretSantaService SantaService { get; set; }
 
-        public SantaFacade() { }
         public SantaFacade(IPersonRepository personRepo, ISecretSantaService service) {
             if (personRepo is null || service is null) throw new ArgumentNullException();
 

@@ -14,7 +14,7 @@ namespace SecretSanta.Domain.Services {
                 cli.EnableSsl = true;
                 cli.DeliveryMethod = SmtpDeliveryMethod.Network;
                 cli.UseDefaultCredentials = false;
-                cli.Credentials = new NetworkCredential("SecretSanta@ellingen.fun", "");
+                cli.Credentials = new NetworkCredential("SecretSanta@ellingen.org", "");
 
                 StringBuilder sb = new StringBuilder();
 
@@ -26,7 +26,7 @@ namespace SecretSanta.Domain.Services {
                 sb.AppendLine("Warm Regards,");
                 sb.AppendLine("Secret Santa");
 
-                var msg = new MailMessage("SecretSanta@ellingen.fun", person.Email.Email, "Gift Exchange", sb.ToString());
+                var msg = new MailMessage("SecretSanta@ellingen.org", person.Email.Email, "Gift Exchange", sb.ToString());
                 cli.Send(msg);
             }
         }

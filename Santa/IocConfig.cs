@@ -14,7 +14,7 @@ namespace Santa {
             builder.RegisterType<SantaFacade>().As<ISantaFacade>();
             builder.RegisterType<PersonRepository>().As<IPersonRepository>();
             builder.RegisterType<SendGridNotificationService>().As<INotificationService>();
-            builder.RegisterType<SecretSantaService>().As<ISecretSantaService>(); 
+            builder.RegisterType<SecretSantaService>().As<ISecretSantaService>();
 
             return builder.Build();
         }

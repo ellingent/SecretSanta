@@ -220,6 +220,11 @@ namespace SecretSanta.Domain.Tests
             Assert.IsFalse(persons.Any(p => p.Id == p.Giftee.Id));
             Assert.IsFalse(persons.Any(p => p.FamilyId == p.Giftee.FamilyId));
             Assert.IsFalse(persons.GroupBy(p => p.Giftee.Id).Any(g => g.Count() > 1));
+
+            var giftees = persons.Select(p => p.Giftee).ToList();
+            foreach (var p in persons)
+                Assert.IsTrue(giftees.Contains(p));
+
         }
     }
 }
