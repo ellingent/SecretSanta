@@ -14,7 +14,7 @@ namespace SecretSanta.Domain.Services {
                 cli.EnableSsl = true;
                 cli.DeliveryMethod = SmtpDeliveryMethod.Network;
                 cli.UseDefaultCredentials = false;
-                cli.Credentials = new NetworkCredential("SecretSanta@ellingen.fun.test-google-a.com", "$$74$describe$TURN$soon$85$$");
+                cli.Credentials = new NetworkCredential("SecretSanta@ellingen.fun", "");
 
                 StringBuilder sb = new StringBuilder();
 

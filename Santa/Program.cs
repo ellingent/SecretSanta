@@ -1,4 +1,5 @@
-﻿using SecretSanta.Data;
+﻿using Autofac;
+using SecretSanta.Data;
 using SecretSanta.Domain.Facades;
 using SecretSanta.Domain.Factories;
 using SecretSanta.Domain.Interfaces.Facades;
@@ -11,8 +12,12 @@ namespace Santa {
         {
             MapperConfig.Init();
 
-            ISantaFacade facade = new SantaFacade(new PersonRepository(), new SecretSantaFactory());
-            facade.DistributeHolidayCheer();
+            var container = IocConfig.Build();
+
+            using (var scope = container.BeginLifetimeScope()) {
+                var facade = scope.Resolve<ISantaFacade>();
+                facade.DistributeHolidayCheer();
+            }
         }
     }
 }

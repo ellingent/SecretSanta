@@ -11,11 +11,12 @@ namespace SecretSanta.Domain.Facades {
         public IPersonRepository PersonRepository { get; set; }
         public ISecretSantaFactory SantaFactory { get; set; }
 
+        public SantaFacade() { }
         public SantaFacade(IPersonRepository personRepo, ISecretSantaFactory factory) {
             if (personRepo is null || factory is null) throw new ArgumentNullException();
 
-            this.PersonRepository = personRepo;         //TODO: IoC
-            this.SantaFactory = factory;                //TODO: IoC
+            this.PersonRepository = personRepo;         //TODO: Update tests to inject
+            this.SantaFactory = factory;                //TODO: Update tests to inject
         }
 
         public void DistributeHolidayCheer() {
