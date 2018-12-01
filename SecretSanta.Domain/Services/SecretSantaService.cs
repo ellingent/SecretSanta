@@ -63,7 +63,6 @@ namespace SecretSanta.Domain.Services {
         }
 
         public void NotifyPersons(List<Person> AllPersons) {
-            //NotificationService = new SendGridNotificationService();
             foreach (var person in AllPersons)
                 NotificationService.Notify(person);
         }
