@@ -15,7 +15,7 @@ namespace SecretSanta.Domain.Tests
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Test_DistributeGiftee_NullPersons() {
             //Act
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.DistributeGiftees();
@@ -24,7 +24,7 @@ namespace SecretSanta.Domain.Tests
         [TestMethod, ExpectedException(typeof(DistributionException))]
         public void Test_Participants_FamilyIdNull() {
             //Act
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
 
             //Act
@@ -38,7 +38,7 @@ namespace SecretSanta.Domain.Tests
         [TestMethod, ExpectedException(typeof(DistributionException))]
         public void Test_Participants_NoPersons() {
             //Arrange
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>();
@@ -47,7 +47,7 @@ namespace SecretSanta.Domain.Tests
         [TestMethod, ExpectedException(typeof(DistributionException))]
         public void Test_Participants_OnePerson() {
             //Arrange
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { new Person(Guid.NewGuid()) });
@@ -56,7 +56,7 @@ namespace SecretSanta.Domain.Tests
         [TestMethod, ExpectedException(typeof(DistributionException))]
         public void Test_Participants_TwoPeople() {
             //Arrange
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { new Person(Guid.NewGuid()), new Person(Guid.NewGuid()) });
@@ -69,7 +69,7 @@ namespace SecretSanta.Domain.Tests
             var p1 = new Person(familyId) { FamilyId = familyId };
             var p2 = new Person(Guid.NewGuid());
 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { p0, p1, p2 });
@@ -83,7 +83,7 @@ namespace SecretSanta.Domain.Tests
             var p2 = new Person(familyId);
             var p3 = new Person(Guid.NewGuid());
 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
@@ -100,7 +100,7 @@ namespace SecretSanta.Domain.Tests
             var p3 = new Person(familyId1);
             var p5 = new Person(familyId1);
 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
@@ -118,7 +118,7 @@ namespace SecretSanta.Domain.Tests
             var p4 = new Person(familyId1);
 
             //Act
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3, p4 });
         }
@@ -134,7 +134,7 @@ namespace SecretSanta.Domain.Tests
             var p2 = new Person(familyId1);
             var p3 = new Person(familyId0);
 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
 
             //Act
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
@@ -152,7 +152,7 @@ namespace SecretSanta.Domain.Tests
             var p2 = new Person(familyId2);
             
             //Act 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
             santa.Participants = new List<Person>(new[] { p0, p1, p2 });
 
             //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
@@ -173,7 +173,7 @@ namespace SecretSanta.Domain.Tests
             var p3 = new Person(familyId0);
 
             //Act 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3 });
 
             //Assert (Due to random used in algorithm, repeat this operation a whole bunch of times)
@@ -204,7 +204,7 @@ namespace SecretSanta.Domain.Tests
 
 
             //Act 
-            var santa = new SecretSantaService();
+            var santa = new SecretSantaService(null);
             santa.Participants = new List<Person>(new[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 });
 
 

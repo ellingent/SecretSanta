@@ -33,7 +33,7 @@ namespace SecretSanta.Domain.Tests {
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Test_Constructor_NullRepo() {
             //Act
-            var facade = new SantaFacade(null, new SecretSantaService());
+            var facade = new SantaFacade(null, new SecretSantaService(null));
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -46,7 +46,7 @@ namespace SecretSanta.Domain.Tests {
         public void Test_Constructor_PropertiesSet() {
             //Arrange
             var repo = new DummyRepo();
-            var service = new SecretSantaService();
+            var service = new SecretSantaService(null);
             
             //Act
             var facade = new SantaFacade(repo, service);
