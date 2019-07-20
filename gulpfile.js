@@ -1,3 +1,4 @@
+/// <binding BeforeBuild='jsprod, sassprod' ProjectOpened='watch' />
 'use strict';
 
 const gulp = require('gulp');
