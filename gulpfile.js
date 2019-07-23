@@ -13,8 +13,8 @@ const webpack = require('webpack-stream');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 
-const scriptsPath = 'Scripts/**/*.js';
-const stylesPath = 'Styles/**/*.scss';
+const scriptsPath = 'SecretSanta.Web/Scripts/**/*.js';
+const stylesPath = 'SecretSanta.Web/Styles/**/*.scss';
 
 /**
  * CSS Processing
@@ -35,7 +35,7 @@ function sassprod() {
         // rename the output file
         .pipe(rename('site.min.css'))
         // write output file to destination
-        .pipe(gulp.dest('wwwroot/css'));
+        .pipe(gulp.dest('SecretSanta.Web/wwwroot/css'));
 }
 exports.sassprod = sassprod;
 
@@ -53,7 +53,7 @@ function sassdev() {
         }))
         .pipe(sass())
         .pipe(rename('site.css'))
-        .pipe(gulp.dest('wwwroot/css'));
+        .pipe(gulp.dest('SecretSanta.Web/wwwroot/css'));
 }
 exports.sassdev = sassdev;
 
@@ -77,7 +77,7 @@ function jsprod() {
         // rename the output file
         .pipe(rename('site.min.js'))
         // write output file to destination
-        .pipe(gulp.dest('wwwroot/js'));
+        .pipe(gulp.dest('SecretSanta.Web/wwwroot/js'));
 }
 exports.jsprod = jsprod;
 
@@ -97,7 +97,7 @@ function jsdev() {
             mode: 'development'
         }))
         .pipe(rename('site.js'))
-        .pipe(gulp.dest('wwwroot/js'));
+        .pipe(gulp.dest('SecretSanta.Web/wwwroot/js'));
 }
 exports.jsdev = jsdev;
 

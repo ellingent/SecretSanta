@@ -1,9 +1,25 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Hello World";
-}
 
-Hello world.
-<div id="App"></div>
-    
+<h1>Getting Started with Vue.js in .NET Core</h1>
+
+<div id="form">
+    <p>
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your full name" v-model="FullName" />
+    </p>
+
+    <p>
+        <label>Email</label>
+        <input type="text" placeholder="Enter your email" v-model="Email" />
+    </p>
+
+    <p>
+        <label>Comments</label>
+        <textarea rows="10" placeholder="Enter some positive comments" v-model="Comments"></textarea>
+    </p>
+
+    <div id="form-buttons">
+        <button type="button" class="danger">Reset Form</button>
+        <button type="button" class="success" ref="SubmitButton">Submit Form</button>
+    </div>
+</div>
